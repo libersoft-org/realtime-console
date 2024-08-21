@@ -53,10 +53,48 @@ input {
 }
 
 #console {
+ font-family: monospace;
+ font-size: 18px;
  flex-grow: 1;
  padding: 10px;
  background-color: #000;
  color: #fff;
+}
+
+#console .error {
+ color: #f00;
+}
+
+#console .connected {
+ color: #0f0;
+}
+
+#console .sent {
+ color: #66f;
+}
+
+#console .received {
+ color: #ff0;
+}
+
+#console .key {
+ color: #9df;
+}
+
+#console .string {
+ color: #c97;
+}
+
+#console .number {
+ color: #bca;
+}
+
+#console .boolean {
+ color: #59d;
+}
+
+#console .null {
+ color: #f8f;
 }
 
 .grow {
@@ -158,40 +196,4 @@ input {
 
 .bold {
  font-weight: bold;
-}
-
-.text-red {
- color: #f00;
-}
-
-.text-green {
- color: #0f0;
-}
-
-.text-blue {
- color: #66f;
-}
-
-.text-yellow {
- color: #ff0;
-}
-
-.string {
- color: #080;
-}
-
-.number {
- color: #f80;
-}
-
-.boolean {
- color: #00f;
-}
-
-.null {
- color: #f0f;
-}
-
-.key {
- color: #f00;
 }

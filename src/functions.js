@@ -22,28 +22,28 @@ function connect() {
   ws = new WebSocket(qs('#address').value);
   ws.onopen = e => onConnect();
   ws.onclose = e => onDisconnect();
-  ws.onmessage = async e => addLog('<span class="text-yellow bold">RECEIVED:</span><div>' + (isValidJSON(e.data) ? prettify(JSON.stringify(JSON.parse(e.data), null, 2)) : e.data) + '</div>');
-  ws.onerror = e => addLog('<span class="text-red bold">ERROR:</span><div>' + (isValidJSON(e.data) ? prettify(JSON.stringify(JSON.parse(e.data), null, 2)) : e.data) + '</div>');
+  ws.onmessage = async e => addLog('<span class="received bold">RECEIVED:</span><div>' + (isValidJSON(e.data) ? prettify(JSON.stringify(JSON.parse(e.data), null, 2)) : e.data) + '</div>');
+  ws.onerror = e => addLog('<span class="error bold">ERROR:</span><div>' + (isValidJSON(e.data) ? prettify(JSON.stringify(JSON.parse(e.data), null, 2)) : e.data) + '</div>');
  }
 }
 
 function onConnect() {
  connected = true;
  qs('#connect').innerHTML = 'Disconnect';
- addLog('<span class="text-green bold">CONNECTED</span>');
+ addLog('<span class="connected bold">CONNECTED</span>');
 }
 
 function onDisconnect() {
  connected = false;
  qs('#connect').innerHTML = 'Connect';
- addLog('<span class="text-red bold">DISCONNECTED</span>');
+ addLog('<span class="error bold">DISCONNECTED</span>');
 }
 
 function send() {
  let elCommand = qs('#command');
  ws.send(elCommand.value);
  let parsedCommand = isValidJSON(elCommand.value) ? JSON.stringify(JSON.parse(elCommand.value), null, 2) : elCommand.value;
- addLog('<span class="text-blue bold">SENT:</span><div>' + prettify(parsedCommand) + '</div>');
+ addLog('<span class="sent bold">SENT:</span><div>' + prettify(parsedCommand) + '</div>');
  elCommand.value = '';
  elCommand.focus();
 }
