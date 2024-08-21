@@ -7,6 +7,12 @@ window.onload = () => {
   qs('#autoconnect').innerHTML = 'Disable autoconnect';
   connect();
  }
+
+ qs('#command').addEventListener('input', function () {
+  this.style.height = 'auto';
+  this.style.height = this.scrollHeight + 'px';
+ });
+
  qs('#command').focus();
 };
 

@@ -7,8 +7,7 @@ body {
  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
-input,
-textarea {
+input {
  padding: 10px;
  border-width: 0px;
  border-radius: 10px;
@@ -23,10 +22,28 @@ textarea {
 #header,
 #footer {
  display: flex;
- align-items: center;
  gap: 10px;
  padding: 10px;
  background-color: var(--bar-color);
+ color: #fff;
+}
+
+#header {
+ align-items: center;
+}
+
+#footer {
+ align-items: flex-end;
+}
+
+#command {
+ padding: 5px;
+ border-width: 0px;
+ border-radius: 10px;
+ font-size: 16px;
+ resize: none;
+ overflow: hidden;
+ background-color: #444;
  color: #fff;
 }
 
