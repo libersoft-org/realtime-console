@@ -1,5 +1,5 @@
-var ws;
-var connected = false;
+let ws;
+let connected = false;
 
 window.onload = () => {
  qs('#address').value = (window.location.protocol == 'https:' ? 'wss://' : 'ws://') + window.location.host + (window.location.port != '' ? ':' + window.location.port : '') + '/';
@@ -7,12 +7,10 @@ window.onload = () => {
   qs('#autoconnect').innerHTML = 'Disable autoconnect';
   connect();
  }
-
  qs('#command').addEventListener('input', function () {
   this.style.height = 'auto';
   this.style.height = this.scrollHeight + 'px';
  });
-
  qs('#command').focus();
 };
 
@@ -24,8 +22,8 @@ function connect() {
   ws = new WebSocket(qs('#address').value);
   ws.onopen = e => onConnect();
   ws.onclose = e => onDisconnect();
-  ws.onmessage = async e => addLog('<span class="text-yellow bold">RECEIVED:</span> ' + syntaxHighlight(JSON.stringify(JSON.parse(e.data), undefined, 4)));
-  ws.onerror = e => addLog('<span class="text-red bold">ERROR:</span> ' + syntaxHighlight(JSON.stringify(JSON.parse(e.data), undefined, 4)));
+  ws.onmessage = async e => addLog('<span class="text-yellow bold">RECEIVED:</span><div>' + syntaxHighlight(JSON.stringify(JSON.parse(e.data), undefined, 4)) + '</div>');
+  ws.onerror = e => addLog('<span class="text-red bold">ERROR:</span><div>' + syntaxHighlight(JSON.stringify(JSON.parse(e.data), undefined, 4)) + '</div>');
  }
 }
 
@@ -42,8 +40,8 @@ function onDisconnect() {
 }
 
 function send() {
- var command = qs('#command');
- addLog('<span class="text-blue bold">SENT:</span> ' + syntaxHighlight(JSON.stringify(JSON.parse(command.value), undefined, 4)));
+ let command = qs('#command');
+ addLog('<span class="text-blue bold">SENT:</span><div>' + syntaxHighlight(JSON.stringify(JSON.parse(command.value), undefined, 4)) + '</div>');
  ws.send(command.value);
  command.value = '';
  command.focus();
@@ -74,7 +72,8 @@ function closeModals() {
 }
 
 async function addQuickModal() {
- await getModal('Add a quick command', 'Test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test<br />Test<br />Test<br />Test');
+ const html = await getFileContent('html/quick-add-modal.html');
+ await getModal('Add a quick command', html);
 }
 
 async function delQuickModal(id) {
@@ -94,7 +93,7 @@ function keypressCommand() {
 }
 
 function addLog(message) {
- var console = qs('#console');
+ let console = qs('#console');
  console.innerHTML += new Date().toLocaleString() + ' - ' + message + '<br />';
  console.scrollTop = console.scrollHeight;
 }
@@ -102,7 +101,7 @@ function addLog(message) {
 function syntaxHighlight(data) {
  data = data.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
  return data.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
-  var cls = 'number';
+  let cls = 'number';
   if (/^"/.test(match)) {
    if (/:$/.test(match)) cls = 'key';
    else cls = 'string';

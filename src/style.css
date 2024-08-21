@@ -118,10 +118,32 @@ input {
 }
 
 .modal .body {
+ display: flex;
+ flex-direction: column;
+ gap: 10px;
  padding: 10px;
  overflow-y: auto;
  background-color: #fff;
  color: #000;
+}
+
+.modal .body .buttons {
+ display: flex;
+ flex-direction: row;
+ gap: 10px;
+}
+
+.modal .body .buttons .button {
+ border: 1px solid #000;
+}
+
+.modal .body input,
+.modal .body textarea {
+ padding: 10px;
+ border: 1px solid #000;
+ border-radius: 10px;
+ font-size: inherit;
+ font-family: inherit;
 }
 
 .button {

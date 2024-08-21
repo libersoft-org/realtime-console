@@ -1,4 +1,14 @@
-<input id="quick-add-title" type="text" />
-<input id="quick-add-command" type="text" />
-<div class="button" onclick="addQuick()">Add</div>
-<div class="button" onclick="closeModals()">Cancel</div>
+<table>
+ <tr>
+  <td class="bold">Button title:</td>
+  <td><input id="quick-add-title" class="grow" type="text" /></td>
+ </tr>
+ <tr>
+  <td class="bold">Command:</td>
+  <td><textarea id="quick-add-command" rows="15" cols="50" type="text"></textarea></td>
+ </tr>
+</table>
+<div class="buttons">
+ <div class="button grow" onclick="addQuick()">Add</div>
+ <div class="button grow" onclick="closeModals()">Cancel</div>
+</div>
