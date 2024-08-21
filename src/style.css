@@ -1,87 +1,114 @@
 :root {
- --addressbar-height: 50px;
- --addressbar-label-width: 90px;
- --commandbar-height: 50px;
- --commandbar-label-width: 120px;
- --send-button-width: 100px;
- --bars-color: #202020;
+ --bar-color: #222;
 }
 
 body {
- font-family: Verdana, Tahoma, Helvetica, Arial;
- color: #ffffff;
- background-color: #000000;
  margin: 0px;
+ font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
-input {
+input,
+textarea {
  padding: 10px;
  border-width: 0px;
  border-radius: 10px;
 }
 
-a {
- white-space: nowrap;
+#container {
+ display: flex;
+ flex-direction: column;
+ height: 100vh;
+}
+
+#header,
+#footer {
+ display: flex;
+ align-items: center;
+ gap: 10px;
+ padding: 10px;
+ background-color: var(--bar-color);
+ color: #fff;
+}
+
+#content {
+ display: flex;
+ flex-grow: 1;
+}
+
+#console {
+ flex-grow: 1;
+ padding: 10px;
+ background-color: #000;
+ color: #fff;
+}
+
+.grow {
+ flex-grow: 1;
+}
+
+#quick {
+ background-color: var(--bar-color);
+ display: flex;
+ flex-direction: column;
+ gap: 10px;
+ padding: 10px;
+}
+
+#quick .item {
+ display: flex;
+ gap: 10px;
+}
+
+.modal {
+ z-index: 100;
+ display: flex;
+ flex-direction: column;
+ position: absolute;
+ top: 50%;
+ left: 50%;
+ max-width: calc(100% - 20px);
+ max-height: calc(100% - 20px);
+ transform: translate(-50%, -50%);
+ border: 1px solid #000;
+ border-radius: 10px;
+ overflow: hidden;
+ box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.75);
+}
+
+.modal .header {
+ display: flex;
+ align-items: center;
+ gap: 10px;
+ padding: 10px;
+ cursor: pointer;
+ font-weight: bold;
+ background-color: #fd3;
+ color: #000;
+}
+
+.modal .header .title {
+ flex-grow: 1;
+}
+
+.modal .header .close {
+ font-size: 20px;
+}
+
+.modal .body {
+ padding: 10px;
+ overflow-y: auto;
+ background-color: #fff;
+ color: #000;
+}
+
+.button {
  padding: 10px;
  border-radius: 10px;
  font-weight: bold;
+ text-align: center;
  cursor: pointer;
- color: #000000;
- background-color: #d0d0d0;
-}
-
-#output {
- position: absolute;
- top: calc(var(--addressbar-height) + 20px);
- overflow: auto;
- width: calc(100% - 20px);
- padding: 10px;
- height: calc(100% - var(--addressbar-height) - var(--commandbar-height) - 60px);
-}
-
-#addressbar {
- position: absolute;
- display: flex;
- align-items: center;
- gap: 10px;
- padding: 10px;
- width: calc(100% - 20px);
- height: var(--addressbar-height);
- background-color: var(--bars-color);
-}
-
-#addressbar #addressbox {
- width: 100%;
-}
-
-#addressbar #addressbox #address {
- width: calc(100% - 20px);
-}
-
-#addressbar #buttons {
- display: flex;
- justify-content: right;
- gap: 10px;
-}
-
-#commandbar {
- position: absolute;
- display: flex;
- align-items: center;
- gap: 10px;
- bottom: 0;
- width: calc(100% - 20px);
- padding: 10px;
- height: var(--commandbar-height);
- background-color: var(--bars-color);
-}
-
-#commandbar #textbox {
- width: 100%;
-}
-
-#commandbar #textbox #text {
- width: calc(100% - 20px);
+ background-color: #fd3;
+ color: #000;
 }
 
 .bold {
@@ -89,40 +116,37 @@ a {
 }
 
 .text-red {
- color: #ff0000;
+ color: #f00;
 }
 
 .text-green {
- color: #00ff00;
+ color: #0f0;
 }
 
 .text-blue {
- color: #6060ff;
+ color: #66f;
 }
 
 .text-yellow {
- color: #ffff00;
+ color: #ff0;
 }
 
-pre {
- outline: 1px solid #ccc;
- padding: 5px;
- margin: 5px;
- font-family: inherit;
- font-size: 1rem;
-}
 .string {
- color: green;
+ color: #080;
 }
+
 .number {
- color: darkorange;
+ color: #f80;
 }
+
 .boolean {
- color: blue;
+ color: #00f;
 }
+
 .null {
- color: magenta;
+ color: #f0f;
 }
+
 .key {
- color: red;
+ color: #f00;
 }

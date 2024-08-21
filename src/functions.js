@@ -2,12 +2,12 @@ var ws;
 var connected = false;
 
 window.onload = () => {
- document.querySelector('#address').value = 'wss://' + window.location.host + (window.location.port != '' ? ':' + window.location.port : '') + '/';
+ qs('#address').value = (window.location.protocol == 'https:' ? 'wss://' : 'ws://') + window.location.host + (window.location.port != '' ? ':' + window.location.port : '') + '/';
  if (localStorage.getItem('autoconnect') == 'true') {
-  document.querySelector('#autoconnect').innerHTML = 'Disable autoconnect';
+  qs('#autoconnect').innerHTML = 'Disable autoconnect';
   connect();
  }
- document.querySelector('#text').focus();
+ qs('#command').focus();
 };
 
 function connect() {
@@ -15,7 +15,7 @@ function connect() {
   ws.close();
   ws = null;
  } else {
-  ws = new WebSocket(document.querySelector('#address').value);
+  ws = new WebSocket(qs('#address').value);
   ws.onopen = e => {
    onConnect();
   };
@@ -33,32 +33,58 @@ function connect() {
 
 function onConnect() {
  connected = true;
- document.querySelector('#connect').innerHTML = 'Disconnect';
+ qs('#connect').innerHTML = 'Disconnect';
  addLog('<span class="text-green bold">CONNECTED</span>');
 }
 
 function onDisconnect() {
  connected = false;
- document.querySelector('#connect').innerHTML = 'Connect';
+ qs('#connect').innerHTML = 'Connect';
  addLog('<span class="text-red bold">DISCONNECTED</span>');
 }
 
 function send() {
- var textbox = document.querySelector('#text');
- addLog('<span class="text-blue bold">SENT:</span> ' + syntaxHighlight(JSON.stringify(JSON.parse(textbox.value), undefined, 4)));
- ws.send(textbox.value);
- textbox.value = '';
- textbox.focus();
+ var command = qs('#command');
+ addLog('<span class="text-blue bold">SENT:</span> ' + syntaxHighlight(JSON.stringify(JSON.parse(command.value), undefined, 4)));
+ ws.send(command.value);
+ command.value = '';
+ command.focus();
 }
 
 function autoconnect() {
  if (localStorage.getItem('autoconnect') == 'true') {
   localStorage.removeItem('autoconnect');
-  document.querySelector('#autoconnect').innerHTML = 'Enable autoconnect';
+  qs('#autoconnect').innerHTML = 'Enable autoconnect';
  } else {
   localStorage.setItem('autoconnect', true);
-  document.querySelector('#autoconnect').innerHTML = 'Disable autoconnect';
+  qs('#autoconnect').innerHTML = 'Disable autoconnect';
  }
+}
+
+async function getModal(title, body) {
+ closeModals();
+ const html = translate(await getFileContent('html/modal.html'), { '{TITLE}': title, '{BODY}': body });
+ const modal = document.createElement('div');
+ modal.className = 'modal';
+ modal.innerHTML = html;
+ document.body.appendChild(modal);
+}
+
+function closeModals() {
+ const modals = this.qsa('.modal');
+ for (m of modals) m.remove();
+}
+
+async function addQuickModal() {
+ await getModal('Add a quick command', 'Test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test<br />Test<br />Test<br />Test');
+}
+
+async function delQuickModal(id) {
+ await getModal('Remove a quick modal', 'Would you like to delete ... button?');
+}
+
+function delQuick(id) {
+ qs('#quick-' + id).remove();
 }
 
 function keypressAddress() {
@@ -70,9 +96,9 @@ function keypressCommand() {
 }
 
 function addLog(message) {
- var output = document.querySelector('#output');
- output.innerHTML += new Date().toLocaleString() + ' - ' + message + '<br />';
- output.scrollTop = output.scrollHeight;
+ var console = qs('#console');
+ console.innerHTML += new Date().toLocaleString() + ' - ' + message + '<br />';
+ console.scrollTop = console.scrollHeight;
 }
 
 function syntaxHighlight(data) {
@@ -86,4 +112,21 @@ function syntaxHighlight(data) {
   else if (/null/.test(match)) cls = 'null';
   return '<span class="' + cls + '">' + match + '</span>';
  });
+}
+
+async function getFileContent(file) {
+ return (await fetch(file, { headers: { 'cache-control': 'no-cache' } })).text();
+}
+
+function translate(template, dictionary) {
+ for (const key in dictionary) template = template.replaceAll(key, dictionary[key]);
+ return template;
+}
+
+function qs(name) {
+ return document.querySelector(name);
+}
+
+function qsa(name) {
+ return document.querySelectorAll(name);
 }
