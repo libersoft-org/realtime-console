@@ -7,7 +7,6 @@
 
 # Features
 
-- Add resizer for command bar (textarea will grow to 100% height)
 - Add, edit and delete quick commands
 - Switch the order of quick commands buttons
 - Add a possibility to move modal window (drag by title bar)
