@@ -90,7 +90,7 @@ function keypressAddress() {
 }
 
 function keypressCommand() {
- if (event.key === 'Enter') send();
+ if (event.ctrlKey && event.key === 'Enter') send();
 }
 
 function addLog(message) {

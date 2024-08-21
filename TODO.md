@@ -6,7 +6,6 @@
 
 - Add, edit and delete quick commands
 - Modal error when sending invalid JSON (now it's just in dev console)
-- In command textarea react on CTRL + ENTER (not just enter)
 - Make JSONs prettified (multiline) in console output
 - Add resizer for command bar (textarea will grow to 100% height)
 - Switch the order of quick commands buttons
