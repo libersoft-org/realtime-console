@@ -7,12 +7,16 @@ window.onload = () => {
   qs('#autoconnect').innerHTML = 'Disable autoconnect';
   connect();
  }
- qs('#command').addEventListener('input', function () {
-  this.style.height = 'auto';
-  this.style.height = this.scrollHeight + 'px';
- });
+ qs('#command').addEventListener('input', () => resizeCommand());
  qs('#command').focus();
 };
+
+function resizeCommand() {
+ console.log('aa');
+ const elCommand = qs('#command');
+ elCommand.style.height = 'auto';
+ elCommand.style.height = elCommand.scrollHeight + 'px';
+}
 
 function connect() {
  if (connected) {
@@ -40,12 +44,17 @@ function onDisconnect() {
 }
 
 function send() {
- let elCommand = qs('#command');
- ws.send(elCommand.value);
- let parsedCommand = isValidJSON(elCommand.value) ? JSON.stringify(JSON.parse(elCommand.value), null, 2) : elCommand.value;
- addLog('<span class="sent bold">SENT:</span><div>' + prettify(parsedCommand) + '</div>');
- elCommand.value = '';
- elCommand.focus();
+ if (ws?.readyState == 1) {
+  let elCommand = qs('#command');
+  ws.send(elCommand.value);
+  let parsedCommand = isValidJSON(elCommand.value) ? JSON.stringify(JSON.parse(elCommand.value), null, 2) : elCommand.value;
+  addLog('<span class="sent bold">SENT:</span><div>' + prettify(parsedCommand) + '</div>');
+  elCommand.value = '';
+  resizeCommand();
+  elCommand.focus();
+ } else {
+  addLog('<span class="error bold">ERROR:</span> <span>Server is not connected</span>');
+ }
 }
 
 function autoconnect() {
