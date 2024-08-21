@@ -22,8 +22,8 @@ function connect() {
   ws = new WebSocket(qs('#address').value);
   ws.onopen = e => onConnect();
   ws.onclose = e => onDisconnect();
-  ws.onmessage = async e => addLog('<span class="text-yellow bold">RECEIVED:</span><div>' + syntaxHighlight(JSON.stringify(JSON.parse(e.data), undefined, 4)) + '</div>');
-  ws.onerror = e => addLog('<span class="text-red bold">ERROR:</span><div>' + syntaxHighlight(JSON.stringify(JSON.parse(e.data), undefined, 4)) + '</div>');
+  ws.onmessage = async e => addLog('<span class="text-yellow bold">RECEIVED:</span><div>' + (isValidJSON(e.data) ? prettify(JSON.stringify(JSON.parse(e.data), null, 2)) : e.data) + '</div>');
+  ws.onerror = e => addLog('<span class="text-red bold">ERROR:</span><div>' + (isValidJSON(e.data) ? prettify(JSON.stringify(JSON.parse(e.data), null, 2)) : e.data) + '</div>');
  }
 }
 
@@ -40,11 +40,12 @@ function onDisconnect() {
 }
 
 function send() {
- let command = qs('#command');
- addLog('<span class="text-blue bold">SENT:</span><div>' + syntaxHighlight(JSON.stringify(JSON.parse(command.value), undefined, 4)) + '</div>');
- ws.send(command.value);
- command.value = '';
- command.focus();
+ let elCommand = qs('#command');
+ ws.send(elCommand.value);
+ let parsedCommand = isValidJSON(elCommand.value) ? JSON.stringify(JSON.parse(elCommand.value), null, 2) : elCommand.value;
+ addLog('<span class="text-blue bold">SENT:</span><div>' + prettify(parsedCommand) + '</div>');
+ elCommand.value = '';
+ elCommand.focus();
 }
 
 function autoconnect() {
@@ -98,17 +99,21 @@ function addLog(message) {
  console.scrollTop = console.scrollHeight;
 }
 
-function syntaxHighlight(data) {
- data = data.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
- return data.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
-  let cls = 'number';
-  if (/^"/.test(match)) {
-   if (/:$/.test(match)) cls = 'key';
-   else cls = 'string';
-  } else if (/true|false/.test(match)) cls = 'boolean';
-  else if (/null/.test(match)) cls = 'null';
-  return '<span class="' + cls + '">' + match + '</span>';
- });
+function prettify(json) {
+ let highlightedJson = json
+  .replace(/&/g, '&amp;')
+  .replace(/</g, '&lt;')
+  .replace(/>/g, '&gt;')
+  .replace(/("(\\u[\da-fA-F]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|\b\d+\.?\d*\b)/g, function (match) {
+   let cls = 'number';
+   if (/^"/.test(match)) {
+    if (/:$/.test(match)) cls = 'key';
+    else cls = 'string';
+   } else if (/true|false/.test(match)) cls = 'boolean';
+   else if (/null/.test(match)) cls = 'null';
+   return '<span class="' + cls + '">' + match + '</span>';
+  });
+ return highlightedJson.replace(/\n/g, '<br />').replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;').replace(/  /g, '&nbsp;&nbsp;');
 }
 
 async function getFileContent(file) {
@@ -118,6 +123,15 @@ async function getFileContent(file) {
 function translate(template, dictionary) {
  for (const key in dictionary) template = template.replaceAll(key, dictionary[key]);
  return template;
+}
+
+function isValidJSON(text) {
+ try {
+  JSON.parse(text);
+  return true;
+ } catch (e) {
+  return false;
+ }
 }
 
 function qs(name) {
