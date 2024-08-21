@@ -59,6 +59,11 @@ textarea {
  gap: 10px;
 }
 
+#quick .item .button img {
+ width: 20px;
+ height: 20px;
+}
+
 .modal {
  z-index: 100;
  display: flex;
@@ -90,8 +95,9 @@ textarea {
  flex-grow: 1;
 }
 
-.modal .header .close {
- font-size: 20px;
+.modal .header .close img {
+ width: 20px;
+ height: 20px;
 }
 
 .modal .body {

@@ -16,18 +16,10 @@ function connect() {
   ws = null;
  } else {
   ws = new WebSocket(qs('#address').value);
-  ws.onopen = e => {
-   onConnect();
-  };
-  ws.onclose = e => {
-   onDisconnect();
-  };
-  ws.onmessage = async e => {
-   addLog('<span class="text-yellow bold">RECEIVED:</span> ' + syntaxHighlight(JSON.stringify(JSON.parse(e.data), undefined, 4)));
-  };
-  ws.onerror = e => {
-   addLog('<span class="text-red bold">ERROR:</span> ' + syntaxHighlight(JSON.stringify(JSON.parse(e.data), undefined, 4)));
-  };
+  ws.onopen = e => onConnect();
+  ws.onclose = e => onDisconnect();
+  ws.onmessage = async e => addLog('<span class="text-yellow bold">RECEIVED:</span> ' + syntaxHighlight(JSON.stringify(JSON.parse(e.data), undefined, 4)));
+  ws.onerror = e => addLog('<span class="text-red bold">ERROR:</span> ' + syntaxHighlight(JSON.stringify(JSON.parse(e.data), undefined, 4)));
  }
 }
 

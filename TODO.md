@@ -5,8 +5,9 @@
 # Features
 
 - Add, edit and delete quick commands
-- Make JSONs prettified in console output
 - Make "Send" button height to 100% of bar
+- In command textarea react on CTRL + ENTER (not just enter)
+- Make JSONs prettified (multiline) in console output
 - Add resizer for command bar (textarea will grow to 100% height)
 - Switch the order of quick commands buttons
 - Add a possibility to move modal window (drag by title bar)
