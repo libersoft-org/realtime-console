@@ -12,7 +12,6 @@ window.onload = () => {
 };
 
 function resizeCommand() {
- console.log('aa');
  const elCommand = qs('#command');
  elCommand.style.height = 'auto';
  elCommand.style.height = elCommand.scrollHeight + 'px';
