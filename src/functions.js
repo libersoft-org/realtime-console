@@ -67,17 +67,17 @@ function autoconnect() {
 }
 
 async function getModal(title, body) {
- closeModals();
+ closeModal();
  const html = translate(await getFileContent('html/modal.html'), { '{TITLE}': title, '{BODY}': body });
  const modal = document.createElement('div');
- modal.className = 'modal';
+ modal.id = 'modal';
  modal.innerHTML = html;
  document.body.appendChild(modal);
 }
 
-function closeModals() {
- const modals = this.qsa('.modal');
- for (m of modals) m.remove();
+function closeModal() {
+ const modal = this.qs('#modal');
+ if (modal) modal.remove();
 }
 
 async function addQuickModal() {

@@ -36,17 +36,6 @@ input {
  align-items: flex-end;
 }
 
-#command {
- padding: 5px;
- border-width: 0px;
- border-radius: 10px;
- font-size: 16px;
- resize: none;
- overflow: hidden;
- background-color: #444;
- color: #fff;
-}
-
 #content {
  display: flex;
  flex-grow: 1;
@@ -54,12 +43,12 @@ input {
 }
 
 #console {
- font-family: monospace;
- font-size: 18px;
  flex-grow: 1;
  padding: 10px;
- overflow-y: auto;
  max-height: 100%;
+ overflow-y: auto;
+ font-family: monospace;
+ font-size: 18px;
  background-color: #000;
  color: #fff;
 }
@@ -123,7 +112,19 @@ input {
  height: 20px;
 }
 
-.modal {
+#command {
+ padding: 5px;
+ border-width: 0px;
+ border-radius: 10px;
+ max-height: 300px;
+ font-size: 16px;
+ resize: none;
+ overflow-y: scroll;
+ background-color: #444;
+ color: #fff;
+}
+
+#modal {
  z-index: 100;
  display: flex;
  flex-direction: column;
@@ -139,7 +140,7 @@ input {
  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.75);
 }
 
-.modal .header {
+#modal .header {
  display: flex;
  align-items: center;
  gap: 10px;
@@ -150,16 +151,16 @@ input {
  color: #000;
 }
 
-.modal .header .title {
+#modal .header .title {
  flex-grow: 1;
 }
 
-.modal .header .close img {
+#modal .header .close img {
  width: 20px;
  height: 20px;
 }
 
-.modal .body {
+#modal .body {
  display: flex;
  flex-direction: column;
  gap: 10px;
@@ -169,18 +170,18 @@ input {
  color: #000;
 }
 
-.modal .body .buttons {
+#modal .body .buttons {
  display: flex;
  flex-direction: row;
  gap: 10px;
 }
 
-.modal .body .buttons .button {
+#modal .body .buttons .button {
  border: 1px solid #000;
 }
 
-.modal .body input,
-.modal .body textarea {
+#modal .body input,
+#modal .body textarea {
  padding: 10px;
  border: 1px solid #000;
  border-radius: 10px;
