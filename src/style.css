@@ -7,10 +7,12 @@ body {
  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
-input {
+input,
+select {
  padding: 10px;
  border-width: 0px;
  border-radius: 10px;
+ background-color: #fff;
 }
 
 #container {
@@ -103,12 +105,18 @@ input {
  min-width: 250px;
 }
 
-#quick .item {
+#quick .items {
+ display: flex;
+ flex-direction: column;
+ gap: 10px;
+}
+
+#quick .items .item {
  display: flex;
  gap: 10px;
 }
 
-#quick .item .button img {
+#quick .items .item .button img {
  width: 20px;
  height: 20px;
 }

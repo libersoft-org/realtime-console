@@ -1,25 +1,25 @@
+let quickButtons = [];
 let ws;
 let connected = false;
 
 window.onload = () => {
- qs('#address').value = (window.location.protocol == 'https:' ? 'wss://' : 'ws://') + window.location.host + (window.location.port != '' ? ':' + window.location.port : '') + '/';
- if (localStorage.getItem('autoconnect') == 'true') {
+ qs('#address').value = (window.location.protocol === 'https:' ? 'wss://' : 'ws://') + window.location.host + (window.location.port != '' ? ':' + window.location.port : '') + '/';
+ if (localStorage.getItem('autoconnect') === 'true') {
   qs('#autoconnect').innerHTML = 'Disable autoconnect';
   connect();
  }
+ loadQuickButtons();
  const command = qs('#command');
  command.addEventListener('input', () => resizeCommand());
  command.addEventListener('focus', () => resizeCommand());
  command.addEventListener('blur', () => resizeCommandReset());
- //command.focus();
+ command.focus();
 };
 
 function resizeCommand() {
  const elCommand = qs('#command');
  elCommand.style.height = 'auto';
  elCommand.style.height = elCommand.scrollHeight - 20 + 'px';
- //console.log(elCommand);
- //console.log(elCommand.scrollHeight);
 }
 
 function resizeCommandReset() {
@@ -52,8 +52,8 @@ function onDisconnect() {
  addLog('<span class="error bold">DISCONNECTED</span>');
 }
 
-function send() {
- if (ws?.readyState == 1) {
+function sendButton() {
+ if (ws?.readyState === 1) {
   let elCommand = qs('#command');
   ws.send(elCommand.value);
   let parsedCommand = isValidJSON(elCommand.value) ? JSON.stringify(JSON.parse(elCommand.value), null, 2) : elCommand.value;
@@ -66,8 +66,12 @@ function send() {
  }
 }
 
+function sendQuick(id) {
+ ws.send(quickButtons[id].command);
+}
+
 function autoconnect() {
- if (localStorage.getItem('autoconnect') == 'true') {
+ if (localStorage.getItem('autoconnect') === 'true') {
   localStorage.removeItem('autoconnect');
   qs('#autoconnect').innerHTML = 'Enable autoconnect';
  } else {
@@ -95,12 +99,72 @@ async function addQuickModal() {
  await getModal('Add a quick command', html);
 }
 
-async function delQuickModal(id) {
- await getModal('Remove a quick modal', 'Would you like to delete ... button?');
+async function addQuick() {
+ const title = qs('#quick-add-title').value;
+ const command = qs('#quick-add-command').value;
+ if (title !== '' && command !== '') {
+  quickButtons.push({ title, command });
+  localStorage.setItem('quickbuttons', JSON.stringify(quickButtons));
+  closeModal();
+  await loadQuickButtons();
+ }
 }
 
-function delQuick(id) {
- qs('#quick-' + id).remove();
+async function editQuickModal(id) {
+ await getModal(
+  'Edit the quick button',
+  translate(await getFileContent('html/quick-edit-modal.html'), {
+   '{ID}': id,
+   '{TITLE}': quickButtons[id].title,
+   '{COMMAND}': quickButtons[id].command
+  })
+ );
+}
+
+async function editQuick(id) {
+ const title = qs('#quick-edit-title').value;
+ const command = qs('#quick-edit-command').value;
+ if (title !== '' && command !== '') {
+  quickButtons[id].title = title;
+  quickButtons[id].command = command;
+  localStorage.setItem('quickbuttons', JSON.stringify(quickButtons));
+  closeModal();
+  await loadQuickButtons();
+ }
+}
+
+async function delQuickModal(id) {
+ await getModal(
+  'Remove the quick button',
+  translate(await getFileContent('html/quick-del-modal.html'), {
+   '{ID}': id,
+   '{TITLE}': quickButtons[id].title
+  })
+ );
+}
+
+async function delQuick(id) {
+ quickButtons.splice(id, 1);
+ localStorage.setItem('quickbuttons', JSON.stringify(quickButtons));
+ closeModal();
+ await loadQuickButtons();
+}
+
+async function loadQuickButtons() {
+ lsButtons = localStorage.getItem('quickbuttons');
+ if (lsButtons) {
+  quickButtons = JSON.parse(lsButtons);
+  const temp = await getFileContent('html/quick-item.html');
+  let html = '';
+  for (i = 0; i < quickButtons.length; i++) {
+   html += translate(temp, {
+    '{ID}': i,
+    '{TITLE}': quickButtons[i].title
+   });
+  }
+  const elItems = qs('#quick .items');
+  elItems.innerHTML = html;
+ }
 }
 
 function keypressAddress() {
@@ -108,7 +172,7 @@ function keypressAddress() {
 }
 
 function keypressCommand() {
- if (event.ctrlKey && event.key === 'Enter') send();
+ if (event.ctrlKey && event.key === 'Enter') sendButton();
 }
 
 function addLog(message) {

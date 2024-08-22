@@ -5,7 +5,6 @@
 
 # Features
 
-- Add, edit and delete quick commands
 - Switch the order of quick commands buttons
 - Add a possibility to move modal window (drag by title bar)
 - Add WebTransport support (switch WebSocket / WebTransport - last value stored in localStorage)

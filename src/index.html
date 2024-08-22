@@ -13,6 +13,10 @@
    <div id="header">
     <div class="label">Address:</div>
     <input id="address" class="grow" type="text" onkeydown="keypressAddress()" />
+    <select id="protocol">
+     <option value="0" selected>WebSocket</option>
+     <option value="1">WebTransport (not yet implemented)</option>
+    </select>
     <div id="connect" class="button" onclick="connect()">Connect</div>
     <div id="autoconnect" class="button" onclick="autoconnect()">Enable autoconnect</div>
    </div>
@@ -26,7 +30,7 @@
    <div id="footer">
     <div class="label">Command:</div>
     <textarea id="command" class="grow" type="text" onkeydown="keypressCommand()"></textarea>
-    <div id="send" class="button" onclick="send()">Send (CTRL + ENTER)</div>
+    <div id="send" class="button" onclick="sendButton()">Send (CTRL + ENTER)</div>
    </div>
   </div>
  </body>

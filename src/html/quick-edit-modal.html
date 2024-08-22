@@ -1,6 +1,14 @@
-<input id="quick-edit-title" type="text" />
-<input id="quick-edit-command" type="text" />
+<table>
+ <tr>
+  <td class="bold">Button title:</td>
+  <td><input id="quick-edit-title" type="text" value="{TITLE}" /></td>
+ </tr>
+ <tr>
+  <td class="bold">Command:</td>
+  <td><textarea id="quick-edit-command" rows="15" cols="50" type="text">{COMMAND}</textarea></td>
+ </tr>
+</table>
 <div class="buttons">
- <div class="button" onclick="editQuick()">Edit</div>
- <div class="button" onclick="closeModal()">Cancel</div>
+ <div class="button grow" onclick="editQuick({ID})">Edit</div>
+ <div class="button grow" onclick="closeModal()">Cancel</div>
 </div>
