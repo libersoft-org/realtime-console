@@ -185,6 +185,7 @@ input {
 #modal .body input,
 #modal .body textarea {
  padding: 10px;
+ width: calc(100% - 20px);
  border: 1px solid #000;
  border-radius: 10px;
  font-size: inherit;
