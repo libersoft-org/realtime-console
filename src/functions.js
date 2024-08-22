@@ -53,15 +53,11 @@ function onDisconnect() {
 }
 
 function sendButton() {
- if (ws?.readyState === 1) {
-  let elCommand = qs('#command');
-  send(elCommand.value);
-  elCommand.value = '';
-  resizeCommand();
-  elCommand.focus();
- } else {
-  addLog('<span class="error bold">ERROR:</span> <span>Server is not connected</span>');
- }
+ let elCommand = qs('#command');
+ send(elCommand.value);
+ elCommand.value = '';
+ resizeCommand();
+ elCommand.focus();
 }
 
 function sendQuick(id) {
@@ -69,9 +65,13 @@ function sendQuick(id) {
 }
 
 function send(command) {
- ws.send(command);
- let parsedCommand = isValidJSON(command) ? JSON.stringify(JSON.parse(command), null, 2) : command;
- addLog('<span class="sent bold">SENT:</span><div>' + prettify(parsedCommand) + '</div>');
+ if (ws?.readyState === 1) {
+  ws.send(command);
+  let parsedCommand = isValidJSON(command) ? JSON.stringify(JSON.parse(command), null, 2) : command;
+  addLog('<span class="sent bold">SENT:</span><div>' + prettify(parsedCommand) + '</div>');
+ } else {
+  addLog('<span class="error bold">ERROR:</span> <span>Server is not connected</span>');
+ }
 }
 
 function autoconnect() {
