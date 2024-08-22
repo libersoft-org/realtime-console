@@ -154,6 +154,14 @@ async function delQuick(id) {
  await loadQuickButtons();
 }
 
+async function moveQuick(id, direction = false) {
+ if ((id === 0 && !direction) || (id === quickButtons.length - 1 && direction)) return;
+ if (direction) [quickButtons[id], quickButtons[id + 1]] = [quickButtons[id + 1], quickButtons[id]];
+ else [quickButtons[id], quickButtons[id - 1]] = [quickButtons[id - 1], quickButtons[id]];
+ localStorage.setItem('quickbuttons', JSON.stringify(quickButtons));
+ await loadQuickButtons();
+}
+
 async function loadQuickButtons() {
  lsButtons = localStorage.getItem('quickbuttons');
  if (lsButtons) {
