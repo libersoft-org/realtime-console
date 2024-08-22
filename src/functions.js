@@ -7,14 +7,24 @@ window.onload = () => {
   qs('#autoconnect').innerHTML = 'Disable autoconnect';
   connect();
  }
- qs('#command').addEventListener('input', () => resizeCommand());
- qs('#command').focus();
+ const command = qs('#command');
+ command.addEventListener('input', () => resizeCommand());
+ command.addEventListener('focus', () => resizeCommand());
+ command.addEventListener('blur', () => resizeCommandReset());
+ //command.focus();
 };
 
 function resizeCommand() {
  const elCommand = qs('#command');
  elCommand.style.height = 'auto';
- elCommand.style.height = elCommand.scrollHeight + 'px';
+ elCommand.style.height = elCommand.scrollHeight - 20 + 'px';
+ //console.log(elCommand);
+ //console.log(elCommand.scrollHeight);
+}
+
+function resizeCommandReset() {
+ const elCommand = qs('#command');
+ elCommand.style.height = '20px';
 }
 
 function connect() {

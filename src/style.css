@@ -33,6 +33,7 @@ input {
 }
 
 #footer {
+ height: 40px;
  align-items: flex-end;
 }
 
@@ -113,9 +114,10 @@ input {
 }
 
 #command {
- padding: 5px;
+ padding: 10px;
  border-width: 0px;
  border-radius: 10px;
+ height: 20px;
  max-height: 300px;
  font-size: 16px;
  resize: none;
@@ -197,6 +199,11 @@ input {
  cursor: pointer;
  background-color: #fd3;
  color: #000;
+}
+
+.label {
+ font-weight: bold;
+ padding: 12px 0;
 }
 
 .bold {
