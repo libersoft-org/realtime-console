@@ -55,9 +55,7 @@ function onDisconnect() {
 function sendButton() {
  if (ws?.readyState === 1) {
   let elCommand = qs('#command');
-  ws.send(elCommand.value);
-  let parsedCommand = isValidJSON(elCommand.value) ? JSON.stringify(JSON.parse(elCommand.value), null, 2) : elCommand.value;
-  addLog('<span class="sent bold">SENT:</span><div>' + prettify(parsedCommand) + '</div>');
+  send(elCommand.value);
   elCommand.value = '';
   resizeCommand();
   elCommand.focus();
@@ -67,7 +65,13 @@ function sendButton() {
 }
 
 function sendQuick(id) {
- ws.send(quickButtons[id].command);
+ send(quickButtons[id].command);
+}
+
+function send(command) {
+ ws.send(command);
+ let parsedCommand = isValidJSON(command) ? JSON.stringify(JSON.parse(command), null, 2) : command;
+ addLog('<span class="sent bold">SENT:</span><div>' + prettify(parsedCommand) + '</div>');
 }
 
 function autoconnect() {
