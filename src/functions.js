@@ -98,9 +98,14 @@ function closeModal() {
  if (modal) modal.remove();
 }
 
-async function addQuickModal() {
- const html = await getFileContent('html/quick-add-modal.html');
- await getModal('Add a quick command', html);
+async function addQuickModal(title = '', body = '') {
+ await getModal(
+  'Add a quick command',
+  translate(await getFileContent('html/quick-add-modal.html'), {
+   '{TITLE}': title,
+   '{COMMAND}': body
+  })
+ );
 }
 
 async function addQuick() {
@@ -123,6 +128,10 @@ async function editQuickModal(id) {
    '{COMMAND}': quickButtons[id].command
   })
  );
+}
+
+async function duplicateQuickModal(id) {
+ await addQuickModal(quickButtons[id].title, quickButtons[id].command);
 }
 
 async function editQuick(id) {
