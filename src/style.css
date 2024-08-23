@@ -140,7 +140,7 @@ select {
  max-height: 300px;
  font-size: 16px;
  resize: none;
- overflow-y: scroll;
+ overflow-y: auto;
  background-color: #444;
  color: #fff;
 }
