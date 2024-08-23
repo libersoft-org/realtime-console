@@ -179,6 +179,49 @@ async function loadQuickButtons() {
  }
 }
 
+function backupQuick() {
+ const text = localStorage.getItem('quickbuttons');
+ if (!text) return;
+ const url = URL.createObjectURL(new Blob([text], { type: 'text/plain' }));
+ const a = document.createElement('a');
+ a.style.display = 'none';
+ a.href = url;
+ a.download = 'realtime-console-backup-' + new Date().toLocaleString('sv-SE').replace(' ', '_').replace(/:/g, '-') + '.json';
+ document.body.appendChild(a);
+ a.click();
+ document.body.removeChild(a);
+ URL.revokeObjectURL(url);
+}
+
+async function restoreQuick() {
+ const input = document.createElement('input');
+ input.type = 'file';
+ input.accept = '.json';
+ try {
+  const fileContent = await new Promise((resolve, reject) => {
+   input.addEventListener('change', function (event) {
+    const file = event.target.files[0];
+    if (!file) return reject('No file selected');
+    const reader = new FileReader();
+    reader.onload = function (e) {
+     resolve(e.target.result);
+    };
+    reader.onerror = function () {
+     reject('Error reading file');
+    };
+    reader.readAsText(file);
+   });
+   input.click();
+  });
+  if (fileContent) {
+   localStorage.setItem('quickbuttons', fileContent);
+   await loadQuickButtons();
+  }
+ } catch (error) {
+  alert(error);
+ }
+}
+
 function keypressAddress() {
  if (event.key === 'Enter') connect();
 }

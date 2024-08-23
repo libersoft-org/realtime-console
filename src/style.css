@@ -2,6 +2,11 @@
  --bar-color: #222;
 }
 
+* {
+ scrollbar-width: thin;
+ scrollbar-color: #aaa #777;
+}
+
 body {
  margin: 0px;
  font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -105,10 +110,16 @@ select {
  min-width: 250px;
 }
 
+#quick .buttons {
+ display: flex;
+ gap: 10px;
+}
+
 #quick .items {
  display: flex;
  flex-direction: column;
  gap: 10px;
+ overflow-y: auto;
 }
 
 #quick .items .item {

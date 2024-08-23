@@ -5,7 +5,6 @@
 
 # Features
 
-- Add backup and restore buttons for quick commands (from / to JSON file)
 - Add duplicate button for each quick command button
 - Add a possibility to autoconnect when command is sent and server is not connected
 - Add a possibility to move modal window (drag by title bar)
