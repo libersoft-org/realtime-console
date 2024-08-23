@@ -212,8 +212,12 @@ select {
 }
 
 .button {
+ display: flex;
+ align-items: center;
+ justify-content: center;
  padding: 10px;
  border-radius: 10px;
+ white-space: nowrap;
  font-weight: bold;
  text-align: center;
  cursor: pointer;
