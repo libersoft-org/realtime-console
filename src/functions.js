@@ -3,7 +3,7 @@ let ws;
 let connected = false;
 
 window.onload = () => {
- qs('#address').value = (window.location.protocol === 'https:' ? 'wss://' : 'ws://') + window.location.host + (window.location.port != '' ? ':' + window.location.port : '') + '/';
+ qs('#address').value = (window.location.protocol === 'https:' ? 'wss://' : 'ws://') + window.location.host + '/';
  if (localStorage.getItem('autoconnect') === 'true') {
   qs('#autoconnect').innerHTML = 'Disable autoconnect';
   connect();
